@@ -1,3 +1,4 @@
 <x-app-layout>
-    <h1 class="bg-white">Vista Principal Módulo Publicación Vehiculos</h1>
+    @include('modules.PublicacionVehiculo.components.publicVeh')
 </x-app-layout>
+

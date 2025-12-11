@@ -6,6 +6,19 @@
         <a href="/gestion-usuario">Gestión de Usuarios</a>
         <a href="/pago-digital">Pagos Digitales</a>
         <a href="/publicacion-vehiculo">Publicación Vehículos</a>
+        {{-- Mostrar un solo botón que redirige según el estado de sesión --}}
+        @if (auth()->check())
+            {{-- Usuario autenticado: va directo al formulario de publicar vehículo --}}
+            <a href="{{ route('vehiculos.create') }}" class="btn btn-primary">
+                Publicar vehículo
+            </a>
+        @else
+            {{-- Usuario NO autenticado: va a login --}}
+            <a href="{{ route('login') }}" class="btn btn-primary">
+                Publicar vehículo
+            </a>
+        @endif
+
         <a href="/soporte-comunicacion">Soporte y Comunicación
     </nav>
     <!-- ========== -->
@@ -19,13 +32,14 @@
                     LA OPORTUNIDAD<br>
                     QUE NECESITAS
                 </h1>
-                
+
                 <p class="text-xl mt-4 lg:mt-[7rem] ">
                     Reserva el auto que necesitas para tu viaje o genera ingresos<br>
                     poniendo el tuyo en movimiento.
                 </p>
 
-                <div class="flex flex-col lg:flex-row font-semibold shadow-lg space-x-0 lg:space-x-8 space-y-5 lg:space-y-0 mt-12 text-center">
+                <div
+                    class="flex flex-col lg:flex-row font-semibold shadow-lg space-x-0 lg:space-x-8 space-y-5 lg:space-y-0 mt-12 text-center">
                     <a href="{{ route('publicacion.vehiculo') }}"
                         class="bg-dl hover:bg-dl-two px-8 py-3 w-[13.5rem] tracking-wide -skew-x-25">
                         <span class="skew-x-25 block">RESERVA</span>

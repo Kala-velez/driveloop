@@ -16,6 +16,12 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('dashboard')">
+                            {{ __('Mis Vehiculos') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('vehiculos.create')">
+                            {{ __('Publica tu vehiculo') }}
+                        </x-nav-link>
                     </div>
                 @endauth
             </div>
@@ -28,18 +34,23 @@
                         viewBox="0 0 24 24">
                         <path d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 5.65 5.65a7.5 7.5 0 0 0 10.6 10.6Z" />
                     </svg>
-                    <input type="text" class="ml-2 w-full outline-none text-sm border-none focus:ring-0" placeholder="Buscar...">
+                    <input type="text" class="ml-2 w-full outline-none text-sm border-none focus:ring-0"
+                        placeholder="Buscar...">
                 </div>
 
                 @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                 </div>
                             </button>
@@ -55,7 +66,7 @@
                                 @csrf
 
                                 <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
+                                    onclick="event.preventDefault();
                                                     this.closest('form').submit();">
                                     {{ __('Cerrar sesión') }}
                                 </x-dropdown-link>
@@ -65,9 +76,13 @@
                 @else
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center p-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-black hover:text-gray-500 focus:outline-none transition ease-in-out duration-150">
+                            <button
+                                class="inline-flex items-center p-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-black hover:text-gray-500 focus:outline-none transition ease-in-out duration-150">
                                 <div class="ms-1">
-                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 18 18"><path fill="#FFFFFF" d="M12 12q-1.65 0-2.825-1.175T8 8q0-1.65 1.175-2.825T12 4q1.65 0 2.825 1.175T16 8q0 1.65-1.175 2.825T12 12Zm-8 8v-2.8q0-.85.438-1.563T5.6 14.55q1.55-.775 3.15-1.163T12 13q1.65 0 3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20H4Zm2-2h12v-.8q0-.275-.138-.5t-.362-.35q-1.35-.675-2.725-1.012T12 15q-1.4 0-2.775.338T6.5 16.35q-.225.125-.363.35T6 17.2v.8Zm6-8q.825 0 1.413-.588T14 8q0-.825-.588-1.413T12 6q-.825 0-1.413.588T10 8q0 .825.588 1.413T12 10Zm0-2Zm0 10Z"/></svg>
+                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 18 18">
+                                        <path fill="#FFFFFF"
+                                            d="M12 12q-1.65 0-2.825-1.175T8 8q0-1.65 1.175-2.825T12 4q1.65 0 2.825 1.175T16 8q0 1.65-1.175 2.825T12 12Zm-8 8v-2.8q0-.85.438-1.563T5.6 14.55q1.55-.775 3.15-1.163T12 13q1.65 0 3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20H4Zm2-2h12v-.8q0-.275-.138-.5t-.362-.35q-1.35-.675-2.725-1.012T12 15q-1.4 0-2.775.338T6.5 16.35q-.225.125-.363.35T6 17.2v.8Zm6-8q.825 0 1.413-.588T14 8q0-.825-.588-1.413T12 6q-.825 0-1.413.588T10 8q0 .825.588 1.413T12 10Zm0-2Zm0 10Z" />
+                                    </svg>
                                 </div>
                             </button>
                         </x-slot>
@@ -78,7 +93,7 @@
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('register')">
                                 {{ __('Registrarse') }}
-                            </x-dropdown-link>                            
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 @endauth
@@ -86,10 +101,14 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -97,8 +116,8 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white/30">
-            
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden bg-white/30">
+
         @auth
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -124,7 +143,7 @@
                         @csrf
 
                         <x-responsive-nav-link :href="route('logout')"
-                                onclick="event.preventDefault();
+                            onclick="event.preventDefault();
                                             this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
@@ -147,9 +166,10 @@
                     viewBox="0 0 24 24">
                     <path d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 5.65 5.65a7.5 7.5 0 0 0 10.6 10.6Z" />
                 </svg>
-                <input type="text" class="ml-2 w-full outline-none text-sm border-none focus:ring-0" placeholder="Buscar...">
+                <input type="text" class="ml-2 w-full outline-none text-sm border-none focus:ring-0"
+                    placeholder="Buscar...">
             </div>
-            
+
         </div>
     </div>
 </nav>

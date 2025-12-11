@@ -1,0 +1,1 @@
+esta es la vista para la publicacion de los vehiculos
