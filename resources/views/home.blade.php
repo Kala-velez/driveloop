@@ -5,19 +5,11 @@
         <a href="/contrato-garantia">Contratos y Garantias</a>
         <a href="/gestion-usuario">Gestión de Usuarios</a>
         <a href="/pago-digital">Pagos Digitales</a>
-        <a href="/publicacion-vehiculo">Publicación Vehículos</a>
+        {{-- <a href="/publicacion-vehiculo">Publicación Vehículos</a> --}}
+        <a href="{{ auth()->check() ? route('vehiculos.create') : route('login') }}">Publicación Vehículos</a>
         {{-- Mostrar un solo botón que redirige según el estado de sesión --}}
-        @if (auth()->check())
-            {{-- Usuario autenticado: va directo al formulario de publicar vehículo --}}
-            <a href="{{ route('vehiculos.create') }}" class="btn btn-primary">
-                Publicar vehículo
-            </a>
-        @else
-            {{-- Usuario NO autenticado: va a login --}}
-            <a href="{{ route('login') }}" class="btn btn-primary">
-                Publicar vehículo
-            </a>
-        @endif
+        
+        
 
         <a href="/soporte-comunicacion">Soporte y Comunicación
     </nav>
