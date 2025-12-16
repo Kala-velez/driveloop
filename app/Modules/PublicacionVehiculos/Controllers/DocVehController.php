@@ -2,28 +2,28 @@
 
 namespace App\Modules\PublicacionVehiculos\Controllers;
 
-use App\Modules\PublicacionVehiculos\Models\Vehiculos;
-use App\Http\Controllers\Controller;
+
 use App\Modules\PublicacionVehiculos\Models\docVeh;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class VehiculosController extends Controller
+class DocVehController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $documentosVeh = DocVeh::all();
-        return view('modules.PublicacionVehiculo.publicarVehiculo', [
-            'documentosVeh' => $documentosVeh
-        ]);
+        
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +36,7 @@ class VehiculosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vehiculos $vehiculos)
+    public function show(docVeh $docVeh)
     {
         //
     }
@@ -44,7 +44,7 @@ class VehiculosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vehiculos $vehiculos)
+    public function edit(docVeh $docVeh)
     {
         //
     }
@@ -52,7 +52,7 @@ class VehiculosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vehiculos $vehiculos)
+    public function update(Request $request, docVeh $docVeh)
     {
         //
     }
@@ -60,7 +60,7 @@ class VehiculosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vehiculos $vehiculos)
+    public function destroy(docVeh $docVeh)
     {
         //
     }
