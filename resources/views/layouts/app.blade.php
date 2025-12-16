@@ -45,7 +45,7 @@
 
             <!-- Page Content -->
             <main>
-                <div class="py-5">
+                <div class="">
                     <div class="sm:rounded-lg">
                         <div class="p-3">
                             {{ $slot }}

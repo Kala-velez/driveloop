@@ -1,18 +1,192 @@
-.fila__inputs_public{
-    background-color: rgb(0, 0, 0, 0.5); /* negro al 50% */
-    padding: 2rem;
-    border-radius: 5px;
+:root{
+  --wine: #8c1f33;
+  --wine-2:#b01f3c;
+  --border: #caa3ac;
+  --text: #222;
+  --muted: #6b6b6b;
 }
-.parrafos__pubVeh{
-    color: white;
-    text-align: center;
-    font-family: 'Roboto', sans-serif;
-    margin-bottom: 2rem;
+
+*{ box-sizing: border-box; }
+body{
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: #ffffff;
 }
-.fila__inputs_public label{
-    color: white;
+
+.page{
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 16px;
 }
-.titulos__publ{
-    color: white;
-    margin-bottom: 2rem;
+
+.card{
+  width: min(1050px, 100%);
+  background: #fff;
+  padding: 10px 30px;
+}
+
+.head{
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.head h1{
+  margin: 0;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.head p{
+  margin: 12px 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.rule{
+  height: 1px;
+  background: #d9d9d9;
+  width: 78%;
+  margin: 0 auto;
+}
+
+.form{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: start;
+  padding: 18px 0;
+}
+
+/* Columnas */
+.col{ width: 100%; }
+
+/* Campos */
+.field{
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+label{
+  display: none; /* el diseño de la imagen no muestra labels; accesible igual por for/id */
+}
+
+input, select{
+  width: 100%;
+  height: 46px;
+  border: 1px solid var(--border);
+  outline: none;
+  padding: 0 14px;
+  font-size: 13px;
+  background: #fff;
+}
+
+input:focus, select:focus{
+  border-color: var(--wine);
+  box-shadow: 0 0 0 2px rgba(140, 31, 51, .10);
+}
+
+/* Placeholder visual como en maqueta (texto dentro del input) */
+input::placeholder{
+  color: #999;
+}
+
+/* Select con flecha vino */
+.select-wrap{
+  position: relative;
+}
+
+.select-wrap select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+}
+
+.select-wrap::after{
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 10px solid var(--wine);
+  transform: translateY(-30%);
+  pointer-events: none;
+}
+
+/* Titulitos de sección a la derecha */
+.section-title{
+  margin: 0 0 16px;
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+}
+
+.mt{ margin-top: 26px; }
+
+/* Checkboxes en dos columnas */
+.checks{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 90px;
+  row-gap: 14px;
+  padding: 10px 0 6px;
+}
+
+.check{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #333;
+}
+
+.check input{
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--wine);
+}
+
+/* Fila de ubicación (dos selects) */
+.row2{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+/* Botón */
+.btn{
+  width: 74%;
+  margin: 26px auto 0;
+  display: block;
+  height: 58px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--wine) 0%, var(--wine-2) 65%, var(--wine) 100%);
+}
+
+.btn:active{
+  transform: translateY(1px);
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .form{
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .btn{
+    width: 100%;
+  }
+  .rule{ width: 100%; }
 }
