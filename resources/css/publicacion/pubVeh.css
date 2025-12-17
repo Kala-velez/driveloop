@@ -6,13 +6,15 @@
   --muted: #6b6b6b;
 }
 
+
+
 *{ box-sizing: border-box; }
-body{
+/* body{
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
   background: #ffffff;
-}
+} */
 
 .page{
   min-height: 100vh;
@@ -66,6 +68,7 @@ body{
 .field{
   width: 100%;
   margin-bottom: 14px;
+  
 }
 
 label{
@@ -189,4 +192,58 @@ input::placeholder{
     width: 100%;
   }
   .rule{ width: 100%; }
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(140, 31, 51, .10) !important;
+  border-color: var(--wine) !important;
+
+  /* Desactiva Tailwind ring */
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: none !important;
+  --tw-ring-offset-shadow: none !important;
+}
+/* Solo campos tipo texto, no checkbox */
+.form input:not([type="checkbox"]):not([type="radio"]),
+.form select,
+.form textarea {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 100% !important;
+  height: 46px !important;
+
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+
+  background: #fff !important;
+  box-shadow: none !important;
+
+  padding: 0 14px !important;
+  font-size: 13px !important;
+  color: var(--text) !important;
+}
+
+.form input[type="checkbox"]{
+  width: 14px !important;
+  height: 14px !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+}
+
+
+.form input:not([type="checkbox"]):not([type="radio"])::placeholder{
+  color: #353434;
+  opacity: 1;
+}
+.content__inputs{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0rem 1rem;
 }

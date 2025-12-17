@@ -8,7 +8,7 @@
         </header>
 
         <form class="form" action="#" method="post">
-            
+            @csrf
             <!-- Columna izquierda -->
             <div class="col left">
                 <div class="field">
@@ -17,7 +17,7 @@
                         <select id="clase" name="clase" required>
                             <option value="" selected disabled>Tipo de vehículo</option>
                             @foreach ($tipoVeh as $tipoveh)
-                                <option>{{ $tipoveh->des }}</option>
+                                <option value="{{ $tipoveh->cod }}">{{ $tipoveh->des }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -49,56 +49,36 @@
                         <select id="marca" name="marca" required>
                             <option value="" selected disabled>Seleccione el tipo de combustible</option>
                             @foreach ($tipoCombust as $tipocombust)
-                                <option>{{ $tipocombust->des }}</option>                                
+                                <option>{{ $tipocombust->des }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-
-
-                {{-- <div class="field">
-                    <label for="modelo">Modelo</label>
-                    <input id="modelo" name="modelo" type="text" placeholder="" required />
-                </div>
-
-                <div class="field">
-                    <label for="placa">Placa</label>
-                    <input id="placa" name="placa" type="text" placeholder="" required />
-                </div>
-
-                <div class="field">
-                    <label for="color">Color</label>
-                    <input id="color" name="color" type="text" placeholder="" required />
-                </div> --}}
-
-                {{-- <div class="field">
-                    <label for="combustible">Tipo de combustible</label>
-                    <div class="select-wrap">
-                        <select id="combustible" name="combustible" required>
-                            <option value="" selected disabled>Seleccione</option>
-                            <option>Gasolina</option>
-                            <option>Diésel</option>
-                            <option>Híbrido</option>
-                            <option>Eléctrico</option>
-                        </select>
+                <div class="content__inputs">
+                    <div class="field input__color">
+                        <label for="placa">Color</label>
+                        <input id="placa" name="placa" type="text" placeholder="Color del vehiculo" required />
                     </div>
-                </div> --}}
 
-                {{-- <div class="field">
-                    <label for="capacidad">Capacidad de pasajeros</label>
-                    <div class="select-wrap">
-                        <select id="capacidad" name="capacidad" required>
-                            <option value="" selected disabled>Seleccione</option>
-                            <option>2</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>7</option>
-                        </select>
+                    <div class="field">
+                        <label for="placa">Modelo</label>
+                        <input id="placa" name="placa" type="text" placeholder="Modelo" required />
                     </div>
-                </div> --}}
+
+                    <div class="field">
+                        <label for="placa">Placa</label>
+                        <input id="placa" name="placa" type="text" placeholder="Placa" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="placa">Cilindraje</label>
+                        <input id="placa" name="placa" type="text" placeholder="Cilindraje" required />
+                    </div>
+                </div>
             </div>
 
             <!-- Columna derecha -->
+            {{-- Esta parte alimenta la tabla pivot  --}}
             <div class="col right">
                 <p class="section-title">Por favor seleccione los accesorios del vehículo.</p>
 
