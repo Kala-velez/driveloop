@@ -4,7 +4,9 @@ namespace App\Modules\PublicacionVehiculos\Controllers;
 
 use App\Modules\PublicacionVehiculos\Models\Vehiculos;
 use App\Http\Controllers\Controller;
+use App\Modules\PublicacionVehiculos\Models\ClaseVeh;
 use App\Modules\PublicacionVehiculos\Models\docVeh;
+use App\Modules\PublicacionVehiculos\Models\MarcaVeh;
 use Illuminate\Http\Request;
 
 class VehiculosController extends Controller
@@ -14,9 +16,10 @@ class VehiculosController extends Controller
      */
     public function index()
     {
-        $documentosVeh = DocVeh::all();
+       
         return view('modules.PublicacionVehiculo.publicarVehiculo', [
-            'documentosVeh' => $documentosVeh
+            'tipoVeh' => ClaseVeh::orderBy('des')->get(),
+            'marcaVeh' => MarcaVeh::orderBy('des')->get()
         ]);
     }
 

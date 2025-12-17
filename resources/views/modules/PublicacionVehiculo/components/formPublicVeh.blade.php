@@ -11,14 +11,13 @@
             <!-- Columna izquierda -->
             <div class="col left">
                 <div class="field">
-                    <label for="clase">Clase de vehículo</label>
+                    <label for="clase">Tipo de vehículo</label>
                     <div class="select-wrap">
                         <select id="clase" name="clase" required>
-                            <option value="" selected disabled>Seleccione</option>
-                            <option>Automóvil</option>
-                            <option>Moto</option>
-                            <option>Camioneta</option>
-                            <option>Camión</option>
+                            <option value="" selected disabled>Tipo de vehículo</option>
+                            @foreach ($tipoVeh as $tipoveh)
+                                <option>{{ $tipoveh->des }}</option>                                
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -27,11 +26,11 @@
                     <label for="marca">Marca</label>
                     <div class="select-wrap">
                         <select id="marca" name="marca" required>
-                            <option value="" selected disabled>Seleccione</option>
-                            <option>Toyota</option>
-                            <option>Chevrolet</option>
-                            <option>Renault</option>
-                            <option>Kia</option>
+                            <option value="" selected disabled>Seleccione la marca del vehiculo</option>
+                            @foreach ($marcaVeh as $marcaveh)
+                                <option>{{ $marcaveh->des }}</option>                                
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
