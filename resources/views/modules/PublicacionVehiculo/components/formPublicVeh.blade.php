@@ -8,6 +8,7 @@
         </header>
 
         <form class="form" action="#" method="post">
+            
             <!-- Columna izquierda -->
             <div class="col left">
                 <div class="field">
@@ -16,7 +17,7 @@
                         <select id="clase" name="clase" required>
                             <option value="" selected disabled>Tipo de vehículo</option>
                             @foreach ($tipoVeh as $tipoveh)
-                                <option>{{ $tipoveh->des }}</option>                                
+                                <option>{{ $tipoveh->des }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -28,14 +29,34 @@
                         <select id="marca" name="marca" required>
                             <option value="" selected disabled>Seleccione la marca del vehiculo</option>
                             @foreach ($marcaVeh as $marcaveh)
-                                <option>{{ $marcaveh->des }}</option>                                
+                                <option value="{{ $marcaveh->cod }}">{{ $marcaveh->des }}</option>
                             @endforeach
-
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="marca">Linea</label>
+                    <div class="select-wrap">
+                        <select id="linea" name="linea" required disabled>
+                            <option value="" selected disabled>Seleccione primero una marca</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="field">
+                    <label for="marca">Tipo de conbustible</label>
+                    <div class="select-wrap">
+                        <select id="marca" name="marca" required>
+                            <option value="" selected disabled>Seleccione el tipo de combustible</option>
+                            @foreach ($tipoCombust as $tipocombust)
+                                <option>{{ $tipocombust->des }}</option>                                
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+
+                {{-- <div class="field">
                     <label for="modelo">Modelo</label>
                     <input id="modelo" name="modelo" type="text" placeholder="" required />
                 </div>
@@ -48,9 +69,9 @@
                 <div class="field">
                     <label for="color">Color</label>
                     <input id="color" name="color" type="text" placeholder="" required />
-                </div>
+                </div> --}}
 
-                <div class="field">
+                {{-- <div class="field">
                     <label for="combustible">Tipo de combustible</label>
                     <div class="select-wrap">
                         <select id="combustible" name="combustible" required>
@@ -61,9 +82,9 @@
                             <option>Eléctrico</option>
                         </select>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="field">
+                {{-- <div class="field">
                     <label for="capacidad">Capacidad de pasajeros</label>
                     <div class="select-wrap">
                         <select id="capacidad" name="capacidad" required>
@@ -74,7 +95,7 @@
                             <option>7</option>
                         </select>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Columna derecha -->

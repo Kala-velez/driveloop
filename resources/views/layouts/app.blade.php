@@ -17,8 +17,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap Head -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <!-- Icon -->
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
@@ -37,10 +38,10 @@
             <!-- Page Heading -->
             <!-- @isset($header)
     <header class="shadow">
-                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                                {{ $header }}
-                            </div>
-                        </header>
+                                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                    {{ $header }}
+                                </div>
+                            </header>
 @endisset -->
 
             <!-- Page Content -->
@@ -56,7 +57,63 @@
         </div>
     </div>
     <!-- Bootstrap footer -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+    {{-- Inicio Script reativo para seleccion de linea segun marca no modificar --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const marca = document.getElementById('marca');
+            const linea = document.getElementById('linea');
+
+            function resetLinea(texto) {
+                linea.innerHTML = `<option value="" selected disabled>${texto}</option>`;
+                linea.disabled = true;
+            }
+
+            resetLinea('Seleccione primero una marca');
+
+            marca.addEventListener('change', async () => {
+                const marcaCod = marca.value;
+                resetLinea('Cargando líneas...');
+
+                try {
+                    const res = await fetch(`/publicacion-vehiculo/vehiculos/marcas/${marcaCod}/lineas`, {
+
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+                    const data = await res.json();
+
+                    linea.innerHTML = `<option value="" selected disabled>Seleccione la línea</option>`;
+
+                    if (data.length === 0) {
+                        resetLinea('No hay líneas para esta marca');
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const opt = document.createElement('option');
+                        opt.value = item.cod;
+                        opt.textContent = item.des;
+                        linea.appendChild(opt);
+                    });
+
+                    linea.disabled = false;
+
+                } catch (e) {
+                    resetLinea('Error cargando líneas');
+                    console.error(e);
+                }
+            });
+        });
+    </script>
+    {{-- Fin Script reativo para seleccion de linea segun marca no modificar --}}
 
 </body>
 

@@ -4,15 +4,10 @@ namespace App\Modules\PublicacionVehiculos\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MarcaVeh extends Model
+class TipoCombustible extends Model
 {
-    protected $table = 'marcas';  
+    protected $table = 'combustibles';  
     protected $primaryKey = 'cod';
     public $timestamps = false;
     protected $fillable = ['cod', 'des'];
-
-    // public function lineas()
-    // {
-    //     return $this->hasMany(LineasVeh::class, 'codmar', 'cod');
-    // }
 }

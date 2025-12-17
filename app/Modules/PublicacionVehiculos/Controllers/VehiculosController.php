@@ -6,7 +6,9 @@ use App\Modules\PublicacionVehiculos\Models\Vehiculos;
 use App\Http\Controllers\Controller;
 use App\Modules\PublicacionVehiculos\Models\ClaseVeh;
 use App\Modules\PublicacionVehiculos\Models\docVeh;
+use App\Modules\PublicacionVehiculos\Models\LineasVeh;
 use App\Modules\PublicacionVehiculos\Models\MarcaVeh;
+use App\Modules\PublicacionVehiculos\Models\TipoCombustible;
 use Illuminate\Http\Request;
 
 class VehiculosController extends Controller
@@ -16,11 +18,22 @@ class VehiculosController extends Controller
      */
     public function index()
     {
-       
+
         return view('modules.PublicacionVehiculo.publicarVehiculo', [
             'tipoVeh' => ClaseVeh::orderBy('des')->get(),
-            'marcaVeh' => MarcaVeh::orderBy('des')->get()
+            'marcaVeh' => MarcaVeh::orderBy('cod')->get(),
+            'tipoCombust' => TipoCombustible::orderBy('cod')->get()
         ]);
+    }
+
+    public function lineasPorMarca($marcaCod)
+    {
+        $lineas = LineasVeh::query()
+            ->where('codmar', $marcaCod)
+            ->orderBy('des')
+            ->get(['cod', 'des']);
+
+        return response()->json($lineas);
     }
 
     /**
