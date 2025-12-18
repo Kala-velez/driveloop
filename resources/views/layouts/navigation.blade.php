@@ -1,42 +1,137 @@
-<nav x-data="{ open: false }" class="min-w-[15rem]">
+<nav x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
-    <div class="px-4 sm:px-6 lg:px-8 bg-white sm:rounded-[70px]">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+    {{-- <div class="px-4 sm:px-6 lg:px-8 bg-white xl:rounded-[70px]"> --}}
+    <div class="px-4 sm:px-6 lg:px-8 bg-white xl:rounded-[70px] overflow-visible">
+
+        {{-- <div class="flex justify-between h-16"> --}}
+        <div class="flex justify-between h-16 overflow-visible">
+
+            {{-- <div class="flex"> --}}
+            <div class="flex overflow-visible">
+
                 <!-- Logo -->
                 <div class="shrink-0 flex mt-3 items-center">
-                    <a href="{{ route('dashboard') }}" class="mr-4">
-                        <x-application-logo class="block h-12 w-auto fill-current text-gray-800 " />
+                    <a href="{{ route('dashboard') }}">
+                        <x-application-logo class="block h-12 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-                @guest
-                    <x-nav-link :href="auth()->check() ? route('vehiculos.create') : route('login')">
-                        {{ __('Publica tu vehiculo') }}
-                    </x-nav-link>
-
-
-                @endguest
 
                 @auth
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('dashboard')">
-                            {{ __('Mis Vehiculos') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('vehiculos.create')">
-                            {{ __('Publica tu vehiculo') }}
-                        </x-nav-link>
-                    </div>
+                    <x-breeze::nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-breeze::nav-link>
+                    <x-nav-link :href="route('dashboard')">
+                        {{ __('Mis Vehiculos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('vehiculos.create')">
+                        {{ __('Publica tu vehiculo') }}
+                    </x-nav-link>
                 @endauth
+                <!-- PROVISIONAL -->
+                {{-- <x-breeze::nav-link :href="route('calificacion.resena')" :active="request()->routeIs('calificacion.resena')">
+                        {{ __('Reseñas') }}
+                    </x-breeze::nav-link> --}}
+                {{-- <x-breeze::nav-link :href="route('contrato.garantia')" :active="request()->routeIs('contrato.garantia')">
+                        {{ __('Contratos') }}
+                    </x-breeze::nav-link> --}}
+                <x-breeze::nav-link :href="route('gestion.usuario')" :active="request()->routeIs('gestion.usuario')">
+                    {{ __('Usuarios') }}
+                </x-breeze::nav-link>
+                <x-breeze::nav-link :href="route('pago.digital')" :active="request()->routeIs('pago.digital')">
+                    {{ __('Pagos') }}
+                </x-breeze::nav-link>
+
+
+                {{-- inicio desplegable modulo publicacion vehiculos --}}
+                <div class="relative inline-flex items-center" x-data="{ open: false }">
+                    <x-breeze::nav-link as="button" type="button" class="inline-flex items-center" :active="request()->routeIs('publicacion.vehiculo') || request()->routeIs('vehiculos.*')"
+                        @click="open = !open" @click.outside="open = false">
+                        <span class="inline-flex items-center">
+                            {{ __('Vehículos') }}
+                            <svg class="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </x-breeze::nav-link>
+
+                    <div x-cloak x-show="open" x-transition
+                        class="absolute left-0 top-full z-50 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black/5">
+                        <div class="py-1">
+                           
+                            <x-dropdown-link :href="route('publicacion.vehiculo')">
+                                {{ __('Vehículos disponibles') }}
+                            </x-dropdown-link>
+
+                           
+                            <x-dropdown-link :href="auth()->check() ? route('vehiculos.create') : route('login')">
+                                {{ __('Publica tu vehiculo') }}
+                            </x-dropdown-link>
+
+                        </div>
+                    </div>
+                </div>
+                {{-- fin desplegable modulo publicacion vehiculos --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- ========== -->
+                <x-breeze::nav-link :href="route('soporte.comunicacion')" :active="request()->routeIs('soporte.comunicacion')">
+                    {{ __('Soporte') }}
+                </x-breeze::nav-link>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden xl:flex sm:items-center">
 
-                <div class="flex items-center bg-white rounded-full px-4 ring-1 ring-gray-300 lg:w-[17rem] my-8 mx-8">
+                <div class="flex items-center rounded-full px-4 ring-1 ring-gray-300 mx-2 w-48">
                     <svg class="h-5 w-5 text-black" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 5.65 5.65a7.5 7.5 0 0 0 10.6 10.6Z" />
@@ -46,11 +141,11 @@
                 </div>
 
                 @auth
-                    <x-dropdown align="right" width="48">
+                    <x-breeze::dropdown>
                         <x-slot name="trigger">
                             <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-dl focus:outline-none focus:text-dl transition ease-in-out duration-150">
+                                <div>{{ Auth::user()->nom }}</div>
 
                                 <div class="ms-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -64,24 +159,24 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Perfil') }}
-                            </x-dropdown-link>
+                            <x-breeze::dropdown-link :href="route('profile.edit')">
+                                {{ __('Profile') }}
+                            </x-breeze::dropdown-link>
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
-                                <x-dropdown-link :href="route('logout')"
+                                <x-breeze::dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Cerrar sesión') }}
-                                </x-dropdown-link>
+                                    {{ __('Log Out') }}
+                                </x-breeze::dropdown-link>
                             </form>
                         </x-slot>
-                    </x-dropdown>
+                    </x-breeze::dropdown>
                 @else
-                    <x-dropdown align="right" width="48">
+                    <x-breeze::dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
                                 class="inline-flex items-center p-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-black hover:text-gray-500 focus:outline-none transition ease-in-out duration-150">
@@ -95,14 +190,14 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('login')">
-                                {{ __('Iniciar sesión') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('register')">
-                                {{ __('Registrarse') }}
-                            </x-dropdown-link>
+                            <x-breeze::dropdown-link :href="route('login')">
+                                {{ __('Log in') }}
+                            </x-breeze::dropdown-link>
+                            <x-breeze::dropdown-link :href="route('register')">
+                                {{ __('Register') }}
+                            </x-breeze::dropdown-link>
                         </x-slot>
-                    </x-dropdown>
+                    </x-breeze::dropdown>
                 @endauth
             </div>
 
@@ -123,47 +218,51 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden bg-white/30">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden xl:hidden bg-white/80">
 
-        @auth
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        <div class="pt-2 pb-3 space-y-1">
+            @auth
+                <x-breeze::responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
-                </x-responsive-nav-link>
-            </div>
-        @endauth
+                </x-breeze::responsive-nav-link>
+            @endauth
+            <x-breeze::responsive-nav-link :href="route('soporte.comunicacion')" :active="request()->routeIs('soporte-comunicacion')">
+                {{ __('Soporte') }}
+            </x-breeze::responsive-nav-link>
+        </div>
+
         <!-- Responsive Settings Options -->
-        <div class="pt-1 pb-1">
+        <div class="py-1">
             @auth
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->nom }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('profile.edit')">
+                    <x-breeze::responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
-                    </x-responsive-nav-link>
+                    </x-breeze::responsive-nav-link>
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-responsive-nav-link :href="route('logout')"
+                        <x-breeze::responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                             this.closest('form').submit();">
                             {{ __('Log Out') }}
-                        </x-responsive-nav-link>
+                        </x-breeze::responsive-nav-link>
                     </form>
                 </div>
             @else
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('login')">
-                        {{ __('Iniciar sesión') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('register')">
-                        {{ __('Registrarse') }}
-                    </x-responsive-nav-link>
+                    <x-breeze::responsive-nav-link :href="route('login')">
+                        {{ __('Log in') }}
+                    </x-breeze::responsive-nav-link>
+                    <x-breeze::responsive-nav-link :href="route('register')">
+                        {{ __('Register') }}
+                    </x-breeze::responsive-nav-link>
                 </div>
             @endauth
 

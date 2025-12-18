@@ -38,10 +38,10 @@
             <!-- Page Heading -->
             <!-- @isset($header)
     <header class="shadow">
-                                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                                    {{ $header }}
-                                </div>
-                            </header>
+                                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                            {{ $header }}
+                                        </div>
+                                    </header>
 @endisset -->
 
             <!-- Page Content -->
@@ -79,12 +79,13 @@
                 resetLinea('Cargando líneas...');
 
                 try {
-                    const res = await fetch(`/publicacion-vehiculo/vehiculos/marcas/${marcaCod}/lineas`, {
+                    const res = await fetch(
+                        `/publicacion-vehiculo/vehiculos/marcas/${marcaCod}/lineas`, {
 
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        });
 
                     if (!res.ok) throw new Error('HTTP ' + res.status);
 
