@@ -8,7 +8,6 @@ use App\Models\MER\Clase;
 use App\Models\MER\Combustible;
 use App\Models\MER\Marca;
 use App\Modules\PublicacionVehiculo\Models\Accesorio;
-use App\Models\MER\Accesorio;
 use App\Models\MER\Ciudad;
 use App\Models\MER\Departamento;
 use App\Models\MER\Linea;
