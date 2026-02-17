@@ -3,6 +3,7 @@
 namespace App\Models\MER;
 
 use App\Modules\PublicacionVehiculo\Models\Accesorio;
+use App\Modules\PublicacionVehiculo\Models\Accesorio;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MER\FotoVehiculo;
@@ -49,10 +50,12 @@ class Vehiculo extends Model
 		'codcla' => 'int',
 		'codcom' => 'int',
 		'codciu' => 'int',
-		'prerent' => 'decimal:2'
+		'prerent' => 'decimal:2',
+		'disp' => 'bool',
 	];
 
 	protected $fillable = [
+		'user_id',
 		'user_id',
 		'vin',
 		'mod',
@@ -65,7 +68,8 @@ class Vehiculo extends Model
 		'codcla',
 		'codcom',
 		'codciu',
-		'prerent'
+		'prerent',
+		'disp',
 	];
 
 	public function clase()

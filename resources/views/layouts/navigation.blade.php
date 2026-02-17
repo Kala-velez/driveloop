@@ -37,6 +37,18 @@
                 <x-breeze::nav-link :href="route('soporte.index')" :active="request()->routeIs('soporte.index')">
                     {{ __('Soporte') }}
                 </x-breeze::nav-link>
+
+                @role('Administrador')
+                    <x-breeze::nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.*')">
+                        {{ __('Roles') }}
+                    </x-breeze::nav-link>
+                @endrole
+
+                @hasanyrole('Soporte|Administrador')
+                    <x-breeze::nav-link :href="route('soporte.docs.index')" :active="request()->routeIs('soporte.docs.*')">
+                        {{ __('Validación') }}
+                    </x-breeze::nav-link>
+                @endhasanyrole
             </div>
 
             <!-- Settings Dropdown -->
@@ -139,6 +151,12 @@
                 :active="request()->routeIs('soporte-comunicacion')">
                 {{ __('Soporte') }}
             </x-breeze::responsive-nav-link>
+            
+            @hasanyrole('Soporte|Administrador')
+                <x-breeze::responsive-nav-link :href="route('soporte.docs.index')" :active="request()->routeIs('soporte.docs.*')">
+                    {{ __('Validación') }}
+                </x-breeze::responsive-nav-link>
+            @endhasanyrole
         </div>
 
         <!-- Responsive Settings Options -->
