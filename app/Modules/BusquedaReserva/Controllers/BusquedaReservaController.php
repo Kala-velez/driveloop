@@ -39,6 +39,7 @@ class BusquedaReservaController extends Controller
                 $query->where('codmar', $request->marca);
             }
 
+            // Si hay pasajeros seleccionados, filtra por esa cantidad
             if ($request->filled('capacity')) {
                 $query->where('pas', '>=', (int)$request->capacity);
             }
