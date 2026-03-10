@@ -14,6 +14,7 @@
         ->get();
 @endphp
 
+
 <x-card class="w-full p-8">
 
     {{-- Encabezado --}}
@@ -33,6 +34,7 @@
                     <th class="px-4 py-2 text-left">Modelo</th>
                     <th class="px-4 py-2 text-left">Clase</th>
                     <th class="px-4 py-2 text-left">Color</th>
+                    <th class="px-4 py-2 text-left">Acciones</th>
                     <th class="px-4 py-2 text-left">Acciones</th>
                 </tr>
             </thead>
@@ -63,6 +65,18 @@
                                 Documentos
                             </a> --}}
                         </td>
+                        <td class="px-4 py-2 whitespace-nowrap flex gap-2">
+                            {{-- Editar información --}}
+                            <a href="{{ route('vehiculos.edit', $vehiculo->cod) }}"
+                                class="px-3 py-1 text-xs bg-red-700 text-white rounded hover:bg-red-800 transition">
+                                Editar
+                            </a>
+                            {{-- Modificar documentos --}}
+                            {{-- <a href="{{ route('vehiculos.doc.create', $vehiculo->cod) }}"
+                                class="px-3 py-1 text-xs bg-gray-800 text-white rounded hover:bg-gray-900 transition">
+                                Documentos
+                            </a> --}}
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -78,4 +92,9 @@
 
 
 
+
+
+
+
 </x-card>
+

@@ -19,6 +19,7 @@ class BusquedaReservaController extends Controller
 
         if ($request->isMethod('post')) {
 
+
             $validator = Validator::make($request->all(), [
                 'pickup_date' => 'required|date|after_or_equal:today',
                 'return_date' => 'required|date|after_or_equal:pickup_date',
@@ -36,7 +37,7 @@ class BusquedaReservaController extends Controller
 
 
             if ($request->filled('marca')) {
-                $query->where('codmar', $request->marca);
+                $query->where('codmar', (int) $request->marca);
             }
 
             // Si hay pasajeros seleccionados, filtra por esa cantidad
@@ -46,8 +47,11 @@ class BusquedaReservaController extends Controller
 
             
             if ($request->filled('price_range')) {
-                $range = $request->price_range;
+                $range = trim($request->price_range);
 
+                if (str_ends_with($range, '+')) {
+                    $min = (int) rtrim($range, '+');
+                    $query->where('prerent', '>=', $min);
                 if (str_ends_with($range, '+')) {
                     $min = (int) rtrim($range, '+');
                     $query->where('prerent', '>=', $min);
@@ -58,10 +62,17 @@ class BusquedaReservaController extends Controller
             }
 
             $vehiculos = $query->orderByDesc('cod')->get();
+                    [$min, $max] = array_map('intval', explode('-', $range));
+                    $query->whereBetween('prerent', [$min, $max]);
+                }
+            }
+
+            $vehiculos = $query->orderByDesc('cod')->get();
         }
 
         return view("modules.busquedareserva.index", compact('vehiculos'));
     }
+
 
 
     /**
