@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Modules\GestionUsuario\services\UserAnonymizationService;
 
 class ProfileController extends Controller
 {
@@ -31,10 +32,12 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
+        //Actualizar o llenar numero de telefono
+        $request->user()->tel = $request->tel;
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
@@ -43,38 +46,16 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, UserAnonymizationService $anonymizationService): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-
-        //Obtener usuario
-        $user = $request->user();
-
-        //Generar nombre, apellido y correo falsos para generar anonimización de datos
-        $fakeNom = 'Usuario eliminado ' . $user->id;
-        $fakeApe = 'Usuario eliminado ' . $user->id;
-        $fakeEmail = 'deleted_user' . $user->id . '@deleted.com';
-        $fakePassword = Hash::make(Str::random(20));
-        //Actualizar registro (ahora active es false)
-        $user->update([
-            'is_active' => false,
-            'nom' => $fakeNom,
-            'ape' => $fakeApe,
-            'email' => $fakeEmail,
-            'password' => $fakePassword,
-            'tel' => null,
-            'fecnac' => null,
-            'lic' => null,
-            'numcue' => null,
-            'numdir' => null,
-            'codciu' => null,
-        ]);
-
+        // Usar el servicio para anonimizar
+        $anonymizationService->execute($request->user());
+        // El controlador web se encarga de invalidar la sesión y redirigir
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return Redirect::to('/');
     }
 }
