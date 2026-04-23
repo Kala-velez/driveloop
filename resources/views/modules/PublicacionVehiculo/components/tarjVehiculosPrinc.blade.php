@@ -1,15 +1,10 @@
 <section class="relative py-20 bg-center bg-no-repeat"
-    style="
-        background-image: url('{{ asset('img/fondo-carrusel.jpg.jpeg') }}');
-        background-size: 100%;">
-
+    style="background-image: url('{{ asset('img/fondo-carrusel.jpg.jpeg') }}'); background-size: 100%;">
 
     <div class="absolute inset-0 bg-black/70"></div>
 
-    <!-- Contenido encima del overlay -->
     <div class="relative max-w-7xl mx-auto px-6">
 
-        <!-- Título como la imagen -->
         <div class="mb-10">
             <h2 class="text-white text-4xl font-bold">Autos destacados</h2>
             <p class="text-gray-300 mt-2 text-sm">
@@ -21,20 +16,17 @@
             <div class="swiper-wrapper">
 
                 @foreach ($vehiculos as $vehiculo)
-
-                {{-- Se reemplaza codigo anterior por logica mas limpia con el fi de optimizar la presentacion de las imagenes --}}
-
                     @php
-                        $foto = $vehiculo->fotos_vehiculos->first();
-                        $fotoUrl = $foto ? $foto->url : asset('img/no-image.jpg');
-
+                        $fotos = $vehiculo->fotos_vehiculos ?? collect();
+                        $fotoPrincipal = $fotos->first();
+                        $fotoUrl = $fotoPrincipal ? $fotoPrincipal->url : asset('img/no-image.jpg');
+                        $miniaturas = $fotos->take(3)->map(fn($f) => $f->url)->values()->toArray();
                         $precio = number_format((float) ($vehiculo->prerent ?? 0), 0, ',', '.');
                     @endphp
 
                     <div class="swiper-slide">
                         <article class="overflow-hidden rounded-2xl bg-white shadow-sm w-full max-w-xs mx-auto">
 
-                            <!-- Imagen (sin “borde raro”) -->
                             <div class="h-44 w-full bg-gray-100">
                                 <img src="{{ $fotoUrl }}" alt="Foto vehículo"
                                     class="h-full w-full object-cover block" loading="lazy" />
@@ -44,8 +36,9 @@
                                 <div class="grid grid-cols-2 gap-x-10 gap-y-2 text-sm">
                                     <div class="flex items-baseline gap-2">
                                         <span class="font-bold text-gray-900">Marca:</span>
-                                        <span
-                                            class="text-gray-700 uppercase">{{ $vehiculo->marca?->des ?? '---' }}</span>
+                                        <span class="text-gray-700 uppercase">
+                                            {{ $vehiculo->marca?->des ?? '---' }}
+                                        </span>
                                     </div>
 
                                     <div class="flex items-baseline justify-end gap-2 text-right">
@@ -66,16 +59,36 @@
                             </div>
 
                             <div class="grid grid-cols-2">
-                                <div
-                                    class="rounded-bl-2xl bg-slate-900 px-4 py-3 text-center text-sm font-extrabold text-white">
+                                <div class="rounded-bl-2xl bg-slate-900 px-4 py-3 text-center text-sm font-extrabold text-white">
                                     ${{ $precio }} / DÍA
                                 </div>
 
-                                <a href="#"
-                                    class="rounded-br-2xl bg-[#C91843] px-4 py-3 text-center text-sm font-extrabold text-white transition hover:bg-[#B0174B]">
-                                    RENTAR
-                                </a>
+                                @auth
+                                    <button type="button"
+                                        class="btn-open-reserva rounded-br-2xl bg-[#C91843] px-4 py-3 text-center text-sm font-extrabold text-white hover:bg-[#B0174B]"
+                                        
+                                        data-codveh="{{ $vehiculo->cod }}"
+                                        data-marca="{{ $vehiculo->marca?->des }}"
+                                        data-linea="{{ $vehiculo->linea?->des }}"
+                                        data-modelo="{{ $vehiculo->mod }}"
+                                        data-color="{{ $vehiculo->col }}"
+                                        data-combustible="{{ $vehiculo->combustible?->des }}"
+                                        data-pasajeros="{{ $vehiculo->pas }}"
+                                        data-precio="{{ $precio }}"
+                                        data-precio_raw="{{ (float) ($vehiculo->prerent ?? 0) }}"
+                                        data-foto="{{ $fotoUrl }}"
+                                        data-thumbs='@json($miniaturas)'
+                                    >
+                                        RENTAR
+                                    </button>
+                                @else
+                                    <a href="{{ route('login') }}"
+                                        class="rounded-br-2xl bg-[#C91843] px-4 py-3 text-center text-sm font-extrabold text-white hover:bg-[#B0174B]">
+                                        RENTAR
+                                    </a>
+                                @endauth
                             </div>
+
                         </article>
                     </div>
                 @endforeach
@@ -90,6 +103,7 @@
     </div>
 </section>
 
+{{-- SWIPER --}}
 <script>
     const swiper = new Swiper(".mySwiper", {
         slidesPerView: 1,
@@ -107,18 +121,45 @@
         },
 
         breakpoints: {
-            640: {
-                slidesPerView: 1
-            },
-            768: {
-                slidesPerView: 2
-            },
-            1024: {
-                slidesPerView: 3
-            },
-            1280: {
-                slidesPerView: 4
-            },
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 },
         },
+    });
+</script>
+
+{{-- SCRIPT PARA ABRIR MODAL --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        document.querySelectorAll('.btn-open-reserva').forEach(btn => {
+            btn.addEventListener('click', function () {
+
+                const data = {
+                    codveh: this.dataset.codveh,
+                    marca: this.dataset.marca,
+                    linea: this.dataset.linea,
+                    modelo: this.dataset.modelo,
+                    color: this.dataset.color,
+                    combustible: this.dataset.combustible,
+                    pasajeros: this.dataset.pasajeros,
+                    precio: this.dataset.precio,
+                    precio_raw: this.dataset.precio_raw,
+                    foto: this.dataset.foto,
+                    thumbs: JSON.parse(this.dataset.thumbs || '[]')
+                };
+
+                window.dispatchEvent(new CustomEvent('seleccionar-vehiculo-directo', {
+                    detail: data
+                }));
+
+                window.dispatchEvent(new CustomEvent('open-modal', {
+                    detail: 'reserva-directa-car'
+                }));
+
+            });
+        });
+
     });
 </script>

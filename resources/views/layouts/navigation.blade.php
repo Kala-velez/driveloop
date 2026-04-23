@@ -25,9 +25,9 @@
                     :active="request()->routeIs('contrato.garantia')">
                     {{ __('Contratos') }}
                 </x-breeze::nav-link>
-                <x-breeze::nav-link :href="route('pago.digital')" :active="request()->routeIs('pago.digital')">
+                {{-- <x-breeze::nav-link :href="route('pago.digital')" :active="request()->routeIs('pago.digital')">
                     {{ __('Pagos') }}
-                </x-breeze::nav-link>
+                </x-breeze::nav-link> --}}
                 <x-breeze::nav-link :href="auth()->check() ? route('publicacion.vehiculo') : route('login')">
                     {{ __('Vehiculos') }}
                 </x-breeze::nav-link>
@@ -214,4 +214,7 @@
     @include('modules.BusquedaReserva.partials.modals.search-car')
     <!-- Warning Modal -->
     @include('modules.BusquedaReserva.partials.modals.verification-warning')
+    
+    {{-- Modal de reserva desde carrusel en vista pricipal --}}
+    @include('modules.BusquedaReserva.partials.modals.reserva-directa-car')
 </nav>
