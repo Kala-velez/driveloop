@@ -5,6 +5,7 @@ use App\Modules\GestionUsuario\Controllers\AdminRolesController;
 use App\Modules\GestionUsuario\Controllers\ValidacionDocumentosController;
 use App\Modules\GestionUsuario\Controllers\ReservaVehiculoController;
 use App\Modules\GestionUsuario\Controllers\ReservaDocumentoController;
+use App\Modules\GestionUsuario\Controllers\AdminPanelController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('gestion-usuario')->group(function () {

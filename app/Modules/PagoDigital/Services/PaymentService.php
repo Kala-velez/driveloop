@@ -75,6 +75,7 @@ class PaymentService
                 'card_cvv' => $data['card_cvv'] ?? null,
                 'transfer_comprobante' => $data['transfer_comprobante'] ?? null,
             ]);
+            $gatewayResponse['status'] = $this->normalizarEstadoPago($gatewayResponse['status'] ?? 'pendiente');
 
             if (($gatewayResponse['status'] ?? null) === 'redirect') {
                 return [
@@ -177,6 +178,18 @@ class PaymentService
             'pendiente' => 'El pago quedó pendiente de validación.',
             'rechazado' => 'El pago fue rechazado.',
             default => 'Resultado del pago procesado.',
+        };
+    }
+
+    protected function normalizarEstadoPago(string $status): string
+    {
+        $status = strtolower(trim($status));
+
+        return match ($status) {
+            'approved', 'aprobado' => 'aprobado',
+            'pending', 'pendiente', 'in_process' => 'pendiente',
+            'rejected', 'rechazado', 'failed', 'failure', 'fallido' => 'rechazado',
+            default => 'pendiente',
         };
     }
 }

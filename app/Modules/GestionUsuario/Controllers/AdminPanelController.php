@@ -5,6 +5,8 @@ namespace App\Modules\GestionUsuario\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\MER\Reserva;
 use Illuminate\Http\Request;
+use App\Models\MER\Vehiculo;
+use Illuminate\Support\Facades\DB;
 
 class AdminPanelController extends Controller
 {
@@ -45,6 +47,31 @@ class AdminPanelController extends Controller
 
             return view('modules.GestionUsuario.breeze.dashboard', compact('pagos'));
         }
+    }
+    public function cancelarReserva(Reserva $reserva)
+    {
+        DB::transaction(function () use ($reserva) {
+            $reserva->update([
+                'codestres' => 3,
+                'fecha_cierre_real' => now(),
+                'observacion_recepcion' => 'Reserva cancelada por el administrador.',
+            ]);
+
+            $tieneOtraReservaActiva = Reserva::where('codveh', $reserva->codveh)
+                ->where('cod', '!=', $reserva->cod)
+                ->whereIn('codestres', [1, 2])
+                ->exists();
+
+            if (!$tieneOtraReservaActiva) {
+                Vehiculo::where('cod', $reserva->codveh)->update([
+                    'disp' => 1,
+                ]);
+            }
+        });
+
+        return redirect()
+            ->back()
+            ->with('success', 'Reserva cancelada correctamente.');
     }
 
     public function create()

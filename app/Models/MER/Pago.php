@@ -2,7 +2,6 @@
 
 namespace App\Models\MER;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model

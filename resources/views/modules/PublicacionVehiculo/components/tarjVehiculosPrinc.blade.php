@@ -28,12 +28,15 @@
                         <article class="overflow-hidden rounded-2xl bg-white shadow-sm w-full max-w-xs mx-auto">
 
                             <div class="h-44 w-full bg-gray-100">
-                                <img src="{{ $fotoUrl }}" alt="Foto vehículo"
-                                    class="h-full w-full object-cover block" loading="lazy" />
+                                <img src="{{ $fotoUrl }}"
+                                    alt="Foto vehículo"
+                                    class="h-full w-full object-cover block"
+                                    loading="lazy">
                             </div>
 
                             <div class="p-4">
                                 <div class="grid grid-cols-2 gap-x-10 gap-y-2 text-sm">
+
                                     <div class="flex items-baseline gap-2">
                                         <span class="font-bold text-gray-900">Marca:</span>
                                         <span class="text-gray-700 uppercase">
@@ -43,18 +46,25 @@
 
                                     <div class="flex items-baseline justify-end gap-2 text-right">
                                         <span class="font-bold text-gray-900">Modelo:</span>
-                                        <span class="text-gray-700">{{ $vehiculo->mod ?? '---' }}</span>
+                                        <span class="text-gray-700">
+                                            {{ $vehiculo->mod ?? '---' }}
+                                        </span>
                                     </div>
 
                                     <div class="flex items-baseline gap-2">
                                         <span class="font-bold text-gray-900">Línea:</span>
-                                        <span class="text-gray-700">{{ $vehiculo->linea?->des ?? '---' }}</span>
+                                        <span class="text-gray-700">
+                                            {{ $vehiculo->linea?->des ?? '---' }}
+                                        </span>
                                     </div>
 
                                     <div class="flex items-baseline justify-end gap-2 text-right">
                                         <span class="font-bold text-gray-900">Color:</span>
-                                        <span class="text-gray-700">{{ $vehiculo->col ?? '---' }}</span>
+                                        <span class="text-gray-700">
+                                            {{ $vehiculo->col ?? '---' }}
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
 
@@ -66,7 +76,6 @@
                                 @auth
                                     <button type="button"
                                         class="btn-open-reserva rounded-br-2xl bg-[#C91843] px-4 py-3 text-center text-sm font-extrabold text-white hover:bg-[#B0174B]"
-                                        
                                         data-codveh="{{ $vehiculo->cod }}"
                                         data-marca="{{ $vehiculo->marca?->des }}"
                                         data-linea="{{ $vehiculo->linea?->des }}"
@@ -77,12 +86,11 @@
                                         data-precio="{{ $precio }}"
                                         data-precio_raw="{{ (float) ($vehiculo->prerent ?? 0) }}"
                                         data-foto="{{ $fotoUrl }}"
-                                        data-thumbs='@json($miniaturas)'
-                                    >
+                                        data-thumbs='@json($miniaturas)'>
                                         RENTAR
                                     </button>
                                 @else
-                                    <a href="{{ route('login') }}"
+                                    <a href="{{ route('vehiculo.rentar.directo', $vehiculo->cod) }}"
                                         class="rounded-br-2xl bg-[#C91843] px-4 py-3 text-center text-sm font-extrabold text-white hover:bg-[#B0174B]">
                                         RENTAR
                                     </a>
@@ -103,63 +111,78 @@
     </div>
 </section>
 
-{{-- SWIPER --}}
-<script>
-    const swiper = new Swiper(".mySwiper", {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
+@auth
+    @include('modules.BusquedaReserva.partials.modals.reserva-directa-car')
+@endauth
 
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-
-        breakpoints: {
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 },
-        },
-    });
-</script>
-
-{{-- SCRIPT PARA ABRIR MODAL --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+        if (typeof Swiper !== 'undefined') {
+            new Swiper(".mySwiper", {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+
+                breakpoints: {
+                    640: { slidesPerView: 1 },
+                    768: { slidesPerView: 2 },
+                    1024: { slidesPerView: 3 },
+                    1280: { slidesPerView: 4 },
+                },
+            });
+        }
+
+        function abrirModalReservaDesdeBoton(btn) {
+            if (!btn) return;
+
+            const data = {
+                codveh: btn.dataset.codveh,
+                marca: btn.dataset.marca,
+                linea: btn.dataset.linea,
+                modelo: btn.dataset.modelo,
+                color: btn.dataset.color,
+                combustible: btn.dataset.combustible,
+                pasajeros: btn.dataset.pasajeros,
+                precio: btn.dataset.precio,
+                precio_raw: btn.dataset.precio_raw,
+                foto: btn.dataset.foto,
+                thumbs: JSON.parse(btn.dataset.thumbs || '[]')
+            };
+
+            window.dispatchEvent(new CustomEvent('seleccionar-vehiculo-directo', {
+                detail: data
+            }));
+
+            window.dispatchEvent(new CustomEvent('open-modal', {
+                detail: 'reserva-directa-car'
+            }));
+        }
+
         document.querySelectorAll('.btn-open-reserva').forEach(btn => {
             btn.addEventListener('click', function () {
-
-                const data = {
-                    codveh: this.dataset.codveh,
-                    marca: this.dataset.marca,
-                    linea: this.dataset.linea,
-                    modelo: this.dataset.modelo,
-                    color: this.dataset.color,
-                    combustible: this.dataset.combustible,
-                    pasajeros: this.dataset.pasajeros,
-                    precio: this.dataset.precio,
-                    precio_raw: this.dataset.precio_raw,
-                    foto: this.dataset.foto,
-                    thumbs: JSON.parse(this.dataset.thumbs || '[]')
-                };
-
-                window.dispatchEvent(new CustomEvent('seleccionar-vehiculo-directo', {
-                    detail: data
-                }));
-
-                window.dispatchEvent(new CustomEvent('open-modal', {
-                    detail: 'reserva-directa-car'
-                }));
-
+                abrirModalReservaDesdeBoton(this);
             });
         });
 
+        @if(session('abrir_reserva_directa'))
+            setTimeout(function () {
+                const btnAuto = document.querySelector(
+                    '.btn-open-reserva[data-codveh="{{ session('abrir_reserva_directa') }}"]'
+                );
+
+                abrirModalReservaDesdeBoton(btnAuto);
+            }, 800);
+        @endif
     });
 </script>

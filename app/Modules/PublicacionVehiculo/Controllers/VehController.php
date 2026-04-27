@@ -140,5 +140,10 @@ class VehController extends Controller
         return view('home', compact('vehiculos'));
     }
 
-    
+    public function rentarDirecto($codveh)
+    {
+        return redirect()
+            ->route('home')
+            ->with('abrir_reserva_directa', $codveh);
+    }
 }
