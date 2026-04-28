@@ -1,4 +1,4 @@
-<x-page>
+{{-- <x-page>
     <div class="mx-auto w-full max-w-6xl px-4 py-6">
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
@@ -62,8 +62,6 @@
 
         </div>
     </div>
-<<<<<<< HEAD
-=======
 </x-page> --}}
 
 <x-page>
@@ -245,10 +243,21 @@
                             </p>
 
                             <div class="mt-4 flex gap-2">
-                                <a href="{{ route('pago.digital') }}"
-                                    class="px-4 py-2 text-sm font-bold bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition">
-                                    RENTAR VEHÍCULO
-                                </a>
+                                <form action="{{ route('checkout.reserva') }}" method="POST" class="flex gap-2">
+                                    @csrf
+
+                                    {{-- Vehículo seleccionado en el modal --}}
+                                    <input type="hidden" name="codveh" :value="data.id">
+
+                                    {{-- Fechas que vienen de la búsqueda --}}
+                                    <input type="hidden" name="pickup_date" value="{{ $pickup_date }}">
+                                    <input type="hidden" name="return_date" value="{{ $return_date }}">
+
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-bold bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition">
+                                        RENTAR VEHÍCULO
+                                    </button>
+                                </form>
 
                                 <button type="button" @click="close()"
                                     class="px-4 py-2 text-sm font-bold bg-gray-200 rounded-xl hover:bg-gray-300 transition">

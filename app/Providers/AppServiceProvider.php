@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use App\Models\MER\Marca;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
         // View Composer for Navigation (Search Modal Brands)
         View::composer('layouts.navigation', function ($view) {
             $view->with('marcas', \App\Models\MER\Marca::all());
+        });
+
+        \View::composer('modules.BusquedaReserva.partials.modals.search-car', function ($view) {
+            $view->with('marcas', \App\Models\MER\Marca::orderBy('des')->get());
         });
     }
 }
